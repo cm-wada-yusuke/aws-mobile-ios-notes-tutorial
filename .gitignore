@@ -112,3 +112,7 @@ xcuserdata
 
 # CocoaPods
 /Pods
+
+
+# idea
+.idea/

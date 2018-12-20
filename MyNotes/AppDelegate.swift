@@ -12,6 +12,7 @@
  */
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -28,12 +29,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         splitViewController.delegate = self
         
         // Initialize the analytics service
-        analyticsService = LocalAnalyticsService()
+        // analyticsService = LocalAnalyticsService()
+        analyticsService = AWSAnalyticsService()
         
         // Initialize the data service
         dataService = MockDataService()
         
+        // Push notifications
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {
+            (granted, error) in
+            if granted {
+                print("Allowed")
+                application.registerForRemoteNotifications()
+            } else {
+                print("Didn't allowed")
+            }
+        })
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data ) {
+        analyticsService?.registerDevice(deviceToken)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

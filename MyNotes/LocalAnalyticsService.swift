@@ -44,4 +44,9 @@ class LocalAnalyticsService : AnalyticsService {
         let dateString = df.string(from: currentTime)
         print("\(dateString) \(eventName):\(event)")
     }
+
+    func registerDevice(_ deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%.2hhx", $0) }.joined()
+        print("deviceToken: \(token)")
+    }
 }

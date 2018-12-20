@@ -14,6 +14,9 @@
 /*
  * Methods associated with analytics
  */
+import Foundation
+
 protocol AnalyticsService {
     func recordEvent(_ eventName: String, parameters: [String:String]?, metrics: [String:Double]?) -> Void
+    func registerDevice(_ deviceToken: Data)
 }
